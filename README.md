@@ -12,7 +12,7 @@ composer require bartlomiejbeta/api-scope-bundle
 
 ##### 2. Register bundle in `AppKernel`:
 
-```php
+```PHP
 public function registerBundles()
 {
     $bundles = array(
@@ -25,7 +25,7 @@ public function registerBundles()
 ### Usage
 1. Simple
 
-```
+```PHP
 /**
 * @ScopeConverter()
 * @Rest\Route("/api/item", name="api.get_item")
@@ -42,7 +42,7 @@ public function getCarCollection(Request $request, ScopeCollection $scopeCollect
 
 2. Configured
 
-```
+```PHP
 /**
 * @ScopeConverter(value="scopes",queryString="scope")
 * @Rest\Route("/api/item", name="api.get_item")
@@ -56,3 +56,8 @@ public function getCarCollection(Request $request, ScopeCollection $scopes): Res
 	return $this->handleView($view);
 }
 ```
+
+
+### TODO
+- tests
+- provide example app
