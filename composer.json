@@ -1,0 +1,35 @@
+{
+  "name": "bartlomiejbeta/api-scope-bundle",
+  "description": "",
+  "type": "symfony-bundle",
+  "keywords": [
+    "api",
+    "scope",
+    "serialization"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bartłomiej Beta",
+      "homepage": "https://github.com/bartlomiejbeta"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "BartB\\APIScopeBUndle\\": ""
+    }
+  },
+  "require": {
+    "php": "^7.0",
+    "symfony/symfony": "^2.8|^3.0",
+    "sensio/framework-extra-bundle": "^3.0"
+  },
+  "require-dev": {
+    "symfony/phpunit-bridge": "~2.7",
+    "phpunit/phpunit": "^5.4|^6.0"
+  },
+  "config": {
+    "bin-dir": "bin",
+    "sort-packages": true
+  }
+}
