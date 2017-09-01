@@ -1,6 +1,6 @@
 {
   "name": "bartlomiejbeta/api-scope-bundle",
-  "description": "",
+  "description": "Simple API query string scope recognizer",
   "type": "symfony-bundle",
   "keywords": [
     "api",
