@@ -55,7 +55,7 @@ public function getCarCollection(Request $request, ScopeCollection $scopeCollect
 ```
 example request:
 
-```php
+```
 .../api/item?with[]=external1
 ```
 
@@ -77,7 +77,7 @@ public function getCarCollection(Request $request, ScopeCollection $scopes): Res
 ```
 example request:
 
-```php
+```
 .../api/item?scopes[]=external1&scopes[]=external2
 ```
 
