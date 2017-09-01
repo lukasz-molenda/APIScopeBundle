@@ -53,6 +53,11 @@ public function getCarCollection(Request $request, ScopeCollection $scopeCollect
 	return $this->handleView($view);
 }
 ```
+example request:
+
+```php
+.../api/item?with[]=external1
+```
 
 2. Configured
 
@@ -70,7 +75,11 @@ public function getCarCollection(Request $request, ScopeCollection $scopes): Res
 	return $this->handleView($view);
 }
 ```
+example request:
 
+```php
+.../api/item?scopes[]=external1&scopes[]=external2
+```
 
 ### TODO
 - tests
