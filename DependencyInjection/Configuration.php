@@ -43,7 +43,7 @@ class Configuration implements ConfigurationInterface
 								->cannotBeEmpty()
 								->prototype('scalar')->end()
 							->end()
-							->arrayNode('supported_map')
+							->arrayNode('supported_key_map')
 								->prototype('scalar')->cannotBeEmpty()->end()
 							->end()
 					->end()

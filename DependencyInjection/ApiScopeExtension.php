@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class ApiScopeExtension extends Extension
+class APIScopeExtension extends Extension
 {
 	/**
 	 * {@inheritdoc}
@@ -32,7 +32,7 @@ class ApiScopeExtension extends Extension
 		$configuration = new Configuration();
 		$config        = $this->processConfiguration($configuration, $configs);
 
-		$loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+		$loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 		$loader->load('services.xml');
 
 		$container->getDefinition('api.scope.config_reader')->replaceArgument(0, $config['scopes']);
