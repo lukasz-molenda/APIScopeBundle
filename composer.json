@@ -16,7 +16,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "BartB\\APIScopeBUndle\\": ""
+      "BartB\\APIScopeBundle\\": ""
     }
   },
   "require": {
