@@ -27,7 +27,7 @@ public function registerBundles()
 ```PHP
 api_scope:
     scopes:
-        api.get_item:
+        api.get_item: #route name
             always_included: #will be always included to scopes bag
                 - 'first_always_included_group'
                 - 'second_always_included_group'
