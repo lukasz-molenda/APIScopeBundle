@@ -22,6 +22,20 @@ public function registerBundles()
 }
 ```
 
+##### 3. Configure in `config.yml`:
+
+```PHP
+api_scope:
+    scopes:
+        api.get_item:
+            always_included: #will be always included to scopes bag
+                - 'first_always_included_group'
+                - 'second_always_included_group'
+            supported_key_map:
+                external1: 'scope.internal_name1' #if `external1` will be in the query string than `scope.internal_name1` will be in the scopes bag
+                external2: 'scope.internal_name2'
+```
+
 ### Usage
 1. Simple
 
