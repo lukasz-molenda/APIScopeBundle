@@ -46,7 +46,6 @@ class ScopeConverterReader
 
 		list($controllerObject, $methodName) = $controller;
 
-
 		$scopeConverterAnnotation   = ScopeConverter::class;
 		$controllerReflectionObject = new \ReflectionObject($controllerObject);
 		$reflectionMethod           = $controllerReflectionObject->getMethod($methodName);

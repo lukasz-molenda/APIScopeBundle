@@ -2,6 +2,8 @@
 
 This Symfony bundle aims to provide simple serialization group recognize from query string.
 
+[![Build Status](https://travis-ci.org/bartlomiejbeta/APIScopeBundle.png?branch=master)](https://travis-ci.org/bartlomiejbeta/APIScopeBundle)
+
 ### Installation
 
 ##### 1. Install via composer:
@@ -37,7 +39,7 @@ api_scope:
 ```
 
 ### Usage
-1. Simple
+#### 1. Simple
 
 ```PHP
 /**
@@ -53,13 +55,19 @@ public function getCarCollection(Request $request, ScopeCollection $scopeCollect
 	return $this->handleView($view);
 }
 ```
-example request:
+##### example request:
 
 ```
 .../api/item?with[]=external1
 ```
 
-2. Configured
+##### example response:
+
+```
+{"scopes":["first_always_included_group","second_always_included_group","scope.internal_name1"]}
+```
+
+#### 2. Configured
 
 ```PHP
 /**
@@ -75,12 +83,13 @@ public function getCarCollection(Request $request, ScopeCollection $scopes): Res
 	return $this->handleView($view);
 }
 ```
-example request:
+##### example request:
 
 ```
 .../api/item?scopes[]=external1&scopes[]=external2
 ```
+##### example response:
 
-### TODO
-- tests
-- provide example app
+```
+{"scopes":["first_always_included_group","second_always_included_group","scope.internal_name1","scope.internal_name2"]}
+```
