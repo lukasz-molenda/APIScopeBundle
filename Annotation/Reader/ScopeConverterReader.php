@@ -93,6 +93,7 @@ class ScopeConverterReader
 			{
 				$scope = $mapForRoute[$scope][Configuration::SUPPORTED_KEY_MAP_INTERNAL_NAME];
 
+				return;
 			}
 
 			if (false === $this->authorizationChecker->isGranted($securityVoterForScopeName))
