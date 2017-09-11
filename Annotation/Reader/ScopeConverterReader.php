@@ -15,10 +15,13 @@ namespace BartB\APIScopeBundle\Annotation\Reader;
 
 use BartB\APIScopeBundle\Annotation\ScopeConverter;
 use BartB\APIScopeBundle\Data\ScopeCollection;
+use BartB\APIScopeBundle\DependencyInjection\Configuration;
 use BartB\APIScopeBundle\Exception\ScopeReaderException;
+use BartB\APIScopeBundle\Exception\ScopeSecurityException;
 use BartB\APIScopeBundle\Service\Config\ApiScopeConfigReader;
 use Doctrine\Common\Annotations\Reader;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ScopeConverterReader
 {
@@ -28,10 +31,14 @@ class ScopeConverterReader
 	/** @var ApiScopeConfigReader */
 	private $configReader;
 
-	public function __construct(Reader $annotationReader, ApiScopeConfigReader $configReader)
+	/** @var AuthorizationCheckerInterface */
+	private $authorizationChecker;
+
+	public function __construct(Reader $annotationReader, ApiScopeConfigReader $configReader, AuthorizationCheckerInterface $authorizationChecker)
 	{
-		$this->annotationReader = $annotationReader;
-		$this->configReader     = $configReader;
+		$this->annotationReader     = $annotationReader;
+		$this->configReader         = $configReader;
+		$this->authorizationChecker = $authorizationChecker;
 	}
 
 	public function onKernelController(FilterControllerEvent $event)
@@ -72,15 +79,28 @@ class ScopeConverterReader
 	private function mapPassedCollection(array $passedCollection, string $route): ScopeCollection
 	{
 		$alwaysIncluded = $this->configReader->getAlwaysIncludedForRoute($route);
-		$mappedScopes   = $this->configReader->getMapForRoute($route);
+		$mapForRoute    = $this->configReader->getMapForRoute($route);
 
-		array_walk($passedCollection, function (&$scope) use ($mappedScopes) {
-			if (false === array_key_exists($scope, $mappedScopes))
+		array_walk($passedCollection, function (&$scope) use ($mapForRoute, $route) {
+			if (false === array_key_exists($scope, $mapForRoute))
 			{
 				throw ScopeReaderException::scopeIsNotSupported($scope);
 			}
 
-			$scope = $mappedScopes[$scope];
+			$securityVoterForScopeName = $this->configReader->getMapSecurityForMapRoute($route, $scope);
+
+			if (empty($securityVoterForScopeName))
+			{
+				$scope = $mapForRoute[$scope][Configuration::SUPPORTED_KEY_MAP_INTERNAL_NAME];
+
+			}
+
+			if (false === $this->authorizationChecker->isGranted($securityVoterForScopeName))
+			{
+				throw ScopeSecurityException::authorizationFails($scope);
+			}
+
+			$scope = $mapForRoute[$scope][Configuration::SUPPORTED_KEY_MAP_INTERNAL_NAME];
 		});
 
 		$scopes          = new ScopeCollection();

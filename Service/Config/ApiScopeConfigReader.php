@@ -13,13 +13,11 @@ declare(strict_types=1);
 namespace BartB\APIScopeBundle\Service\Config;
 
 
-
+use BartB\APIScopeBundle\DependencyInjection\Configuration;
 use BartB\APIScopeBundle\Exception\ScopeConfigException;
 
 class ApiScopeConfigReader
 {
-	const ALWAYS_INCLUDED_CONFIG_KEY = 'always_included';
-	const SUPPORTED_KEY_MAP          = 'supported_key_map';
 
 	/** @var array */
 	private $config;
@@ -33,19 +31,41 @@ class ApiScopeConfigReader
 	{
 		$routeScopeConfig = $this->getForRoute($route);
 
-		return $routeScopeConfig[self::ALWAYS_INCLUDED_CONFIG_KEY];
+		return $routeScopeConfig[Configuration::ALWAYS_INCLUDED];
 	}
 
 	public function getMapForRoute(string $route): array
 	{
 		$routeScopeConfig = $this->getForRoute($route);
 
-		if (false === array_key_exists(self::SUPPORTED_KEY_MAP, $routeScopeConfig))
+		if (false === array_key_exists(Configuration::SUPPORTED_KEY_MAP, $routeScopeConfig))
 		{
 			return [];
 		}
 
-		return $routeScopeConfig[self::SUPPORTED_KEY_MAP];
+		return $routeScopeConfig[Configuration::SUPPORTED_KEY_MAP];
+	}
+
+	public function getMapSecurityForMapRoute(string $route, string $externalScopeName): string
+	{
+		$routeScopeConfig = $this->getForRoute($route);
+
+		if (false === array_key_exists(Configuration::SUPPORTED_KEY_MAP, $routeScopeConfig))
+		{
+			return '';
+		}
+
+		if (false === array_key_exists($externalScopeName, $routeScopeConfig[Configuration::SUPPORTED_KEY_MAP]))
+		{
+			return '';
+		}
+
+		if (false === array_key_exists(Configuration::SUPPORTED_KEY_MAP_SECURITY, $routeScopeConfig[Configuration::SUPPORTED_KEY_MAP][$externalScopeName]))
+		{
+			return '';
+		}
+
+		return $routeScopeConfig[Configuration::SUPPORTED_KEY_MAP][$externalScopeName][Configuration::SUPPORTED_KEY_MAP_SECURITY];
 	}
 
 	private function getForRoute(string $route): array

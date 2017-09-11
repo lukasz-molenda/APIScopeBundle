@@ -23,6 +23,11 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+	const ALWAYS_INCLUDED                 = 'always_included';
+	const SUPPORTED_KEY_MAP               = 'supported_key_map';
+	const SUPPORTED_KEY_MAP_INTERNAL_NAME = 'internal_name';
+	const SUPPORTED_KEY_MAP_SECURITY      = 'security';
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -39,12 +44,22 @@ class Configuration implements ConfigurationInterface
 					->useAttributeAsKey('route')
 					->prototype('array')
 						->children()
-							->arrayNode('always_included')
+							->arrayNode(self::ALWAYS_INCLUDED)
 								->cannotBeEmpty()
 								->prototype('scalar')->end()
 							->end()
-							->arrayNode('supported_key_map')
-								->prototype('scalar')->cannotBeEmpty()->end()
+							->arrayNode(self::SUPPORTED_KEY_MAP)
+								->useAttributeAsKey('external_name')
+								->prototype('array')
+								->addDefaultsIfNotSet()
+									->children()
+										->scalarNode(self::SUPPORTED_KEY_MAP_INTERNAL_NAME)
+										->cannotBeEmpty()
+										->end()
+									->scalarNode(self::SUPPORTED_KEY_MAP_SECURITY)
+										->defaultValue('')
+										->end()
+									->end()
 							->end()
 					->end()
 				->end()

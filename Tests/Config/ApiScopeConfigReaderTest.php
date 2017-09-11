@@ -35,8 +35,14 @@ class ApiScopeConfigReaderTest extends \PHPUnit_Framework_TestCase
 			self::assertContains($item, $alwaysIncludedFromConfig);
 		}
 
-		foreach ($expectedSupportedMap as $item)
+		foreach ($expectedSupportedMap as $externalScopeName => $item)
 		{
+			if (key_exists('security', $item))
+			{
+				$securityName = $apiScopeConfigReader->getMapSecurityForMapRoute(key($config), $externalScopeName);
+				self::assertSame($item['security'], $securityName);
+			}
+
 			self::assertContains($item, $supportedMapFromConfig);
 		}
 	}
@@ -44,44 +50,44 @@ class ApiScopeConfigReaderTest extends \PHPUnit_Framework_TestCase
 	public function dataProviderTestReaderWithBasicOptions(): array
 	{
 		return [
-			[['api.get_item' => ['always_included' => ['always_included_group'], 'supported_key_map' => ['external' => 'internal']]]],
-			[['api.get_item' => ['always_included' => ['always_included_group1', 'always_included_group2'], 'supported_key_map' => ['external1' => 'internal1', 'external2' => 'internal2']]]]
+			[['api.get_item' => ['always_included' => ['always_included_group'], 'supported_key_map' => ['external' => ['internal_name' => 'internal']]]]],
+			[['api.get_item' => ['always_included' => ['always_included_group1', 'always_included_group2'], 'supported_key_map' => ['external1' => ['internal_name' => 'internal1', 'security' => 'can-add-exetrnal1-scope'], 'external2' => ['internal_name' => 'internal2']]]]]
 		];
 	}
 
 	/**
 	 * @expectedException \RuntimeException
 	 * @expectedExceptionMessageRegExp /No scope config found for route/
-	 * @dataProvider dataProviderTestConfigReaderAlwaysIncludedWithNotConfiguredRoute
+	 * @dataProvider                   dataProviderTestConfigReaderAlwaysIncludedWithNotConfiguredRoute
 	 */
 	public function testConfigReaderAlwaysIncludedWithNotConfiguredRoute(array $config, string $notConfiguredRouteName)
 	{
-		$apiScopeConfigReader     = new ApiScopeConfigReader($config);
+		$apiScopeConfigReader = new ApiScopeConfigReader($config);
 		$apiScopeConfigReader->getAlwaysIncludedForRoute($notConfiguredRouteName);
 	}
 
 	public function dataProviderTestConfigReaderAlwaysIncludedWithNotConfiguredRoute(): array
 	{
 		return [
-			[['api.get_item' => ['always_included' => ['always_included_group'], 'supported_key_map' => ['external' => 'internal']]], 'api.no_existing_route'],
+			[['api.get_item' => ['always_included' => ['always_included_group'], 'supported_key_map' => ['external' => ['internal_name' => 'internal']]]], 'api.no_existing_route'],
 		];
 	}
 
 	/**
 	 * @expectedException \RuntimeException
 	 * @expectedExceptionMessageRegExp /No scope config found for route/
-	 * @dataProvider dataProviderTestConfigReaderMapWithNotConfiguredRoute
+	 * @dataProvider                   dataProviderTestConfigReaderMapWithNotConfiguredRoute
 	 */
 	public function testConfigReaderMapWithNotConfiguredRoute(array $config, string $notConfiguredRouteName)
 	{
-		$apiScopeConfigReader   = new ApiScopeConfigReader($config);
+		$apiScopeConfigReader = new ApiScopeConfigReader($config);
 		$apiScopeConfigReader->getMapForRoute($notConfiguredRouteName);
 	}
 
 	public function dataProviderTestConfigReaderMapWithNotConfiguredRoute(): array
 	{
 		return [
-			[['api.get_item' => ['always_included' => ['always_included_group'], 'supported_key_map' => ['external' => 'internal']]], 'api.no_existing_route'],
+			[['api.get_item' => ['always_included' => ['always_included_group'], 'supported_key_map' => ['external' => ['internal_name' => 'internal']]]], 'api.no_existing_route'],
 		];
 	}
 }
