@@ -1,6 +1,6 @@
 # APIScopeBundle
 
-This Symfony bundle aims to provide simple serialization group recognize from query string.
+This Symfony bundle aims to provide simple serialization group recognize from query string (with basic security check if you need it).
 
 [![Build Status](https://travis-ci.org/bartlomiejbeta/APIScopeBundle.png?branch=master)](https://travis-ci.org/bartlomiejbeta/APIScopeBundle)
 
@@ -34,8 +34,10 @@ api_scope:
                 - 'first_always_included_group'
                 - 'second_always_included_group'
             supported_key_map:
-                external1: 'scope.internal_name1' #if `external1` will be in the query string than `scope.internal_name1` will be in the scopes bag
-                external2: 'scope.internal_name2'
+                external1: { internal_name: 'scope.internal_name1'} #if `external1` will be in the query string than `scope.internal_name1` will be in the scopes bag
+                external2:
+                    internal_name: 'scope.internal_name2'
+                    security: 'can-add-external2-scope' # security voter (check symfony security voter) attribution name (to check if scope can be applied)
 ```
 
 ### Usage
