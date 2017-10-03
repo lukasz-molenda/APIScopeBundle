@@ -88,7 +88,7 @@ public function getCarCollection(Request $request, ScopeCollection $scopes): Res
 ##### example request:
 
 ```
-.../api/item?scopes[]=external1&scopes[]=external2
+.../api/item?scope[]=external1&scope[]=external2
 ```
 ##### example response:
 
