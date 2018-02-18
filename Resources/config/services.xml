@@ -4,13 +4,10 @@
 		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		   xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 	<services>
-		<service id="api.scope.config_reader" class="BartB\APIScopeBundle\Service\Config\ApiScopeConfigReader">
+		<service id="BartB\APIScopeBundle\Service\Config\ApiScopeConfigReader" public="true">
 			<argument>[]</argument>
 		</service>
-		<service id="api.scope.annotation.reader.scope_converter" class="BartB\APIScopeBundle\Annotation\Reader\ScopeConverterReader">
-			<argument id="annotations.reader" type="service"/>
-			<argument id="api.scope.config_reader" type="service"/>
-			<argument id="security.authorization_checker" type="service"/>
+		<service id="BartB\APIScopeBundle\Annotation\Reader\ScopeConverterReader" autowire="true">
 			<tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
 		</service>
 	</services>

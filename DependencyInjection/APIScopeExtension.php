@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace BartB\APIScopeBundle\DependencyInjection;
 
+use BartB\APIScopeBundle\Service\Config\ApiScopeConfigReader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -35,6 +36,6 @@ class APIScopeExtension extends Extension
 		$loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 		$loader->load('services.xml');
 
-		$container->getDefinition('api.scope.config_reader')->replaceArgument(0, $config['scopes']);
+		$container->getDefinition(ApiScopeConfigReader::class)->replaceArgument(0, $config['scopes']);
 	}
 }

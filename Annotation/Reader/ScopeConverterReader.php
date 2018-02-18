@@ -19,13 +19,13 @@ use BartB\APIScopeBundle\DependencyInjection\Configuration;
 use BartB\APIScopeBundle\Exception\ScopeReaderException;
 use BartB\APIScopeBundle\Exception\ScopeSecurityException;
 use BartB\APIScopeBundle\Service\Config\ApiScopeConfigReader;
-use Doctrine\Common\Annotations\Reader;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ScopeConverterReader
 {
-	/** @var Reader */
+	/** @var AnnotationReader */
 	private $annotationReader;
 
 	/** @var ApiScopeConfigReader */
@@ -34,7 +34,7 @@ class ScopeConverterReader
 	/** @var AuthorizationCheckerInterface */
 	private $authorizationChecker;
 
-	public function __construct(Reader $annotationReader, ApiScopeConfigReader $configReader, AuthorizationCheckerInterface $authorizationChecker)
+	public function __construct(AnnotationReader $annotationReader, ApiScopeConfigReader $configReader, AuthorizationCheckerInterface $authorizationChecker)
 	{
 		$this->annotationReader     = $annotationReader;
 		$this->configReader         = $configReader;
