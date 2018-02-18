@@ -54,7 +54,7 @@ class Configuration implements ConfigurationInterface
 								->addDefaultsIfNotSet()
 									->children()
 										->scalarNode(self::SUPPORTED_KEY_MAP_INTERNAL_NAME)
-										->requiresAtLeastOneElement()
+										->cannotBeEmpty()
 										->end()
 									->scalarNode(self::SUPPORTED_KEY_MAP_SECURITY)
 										->defaultValue('')
