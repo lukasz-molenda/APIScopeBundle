@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
 					->prototype('array')
 						->children()
 							->arrayNode(self::ALWAYS_INCLUDED)
-								->cannotBeEmpty()
+								->requiresAtLeastOneElement()
 								->prototype('scalar')->end()
 							->end()
 							->arrayNode(self::SUPPORTED_KEY_MAP)
