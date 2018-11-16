@@ -21,7 +21,7 @@
   },
   "require": {
     "php": "^7.0",
-    "sensio/framework-extra-bundle": "^3.0",
+    "sensio/framework-extra-bundle": "^5.1",
     "symfony/symfony": "^4.0|^4.1"
   },
   "require-dev": {
