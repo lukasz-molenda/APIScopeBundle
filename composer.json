@@ -22,10 +22,10 @@
   "require": {
     "php": "^7.0",
     "sensio/framework-extra-bundle": "^3.0",
-    "symfony/symfony": "^3.4|^4.0"
+    "symfony/symfony": "^4.0|^4.1"
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "~2.7",
+    "symfony/phpunit-bridge": "^4.0",
     "phpunit/phpunit": "^5.4|^6.0"
   },
   "config": {
